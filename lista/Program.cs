@@ -1,4 +1,4 @@
-﻿using MySql.Data.MySqlClient;
+using MySql.Data.MySqlClient;
 using Mysqlx.Crud;
 using System;
 using System.Collections.Generic;
@@ -13,7 +13,7 @@ namespace bancoDados
         static void Main(string[] args)
         {
             string conexao =
-                "server=localhost;user=root;password=;database=comida";
+                "server=localhost;user=root;password=;database=comidas";
 
             while (true)
             {
@@ -29,7 +29,7 @@ namespace bancoDados
                 }
                 else if (escolha == "2")
                 {
-                    cadastrarBancoDados(conexao);
+                    CadastrarBancoDados(conexao);
                 }
                 else if (escolha == "3")
                 {
@@ -47,29 +47,32 @@ namespace bancoDados
             //Console.ReadKey();
         }
 
-        private static void cadastrarBancoDados(string conexao)
+        private static void CadastrarBancoDados(string conexao)
         {
             using (MySqlConnection banco = new MySqlConnection(conexao))
             {
-                banco.Open();
+                ;
                 try
                 {
+                    Console.WriteLine("Nome: ");
+                    string nome = Console.ReadLine();
 
-                    string Nome = "teste Nome";
-                    string Tipo = "teste Tipo";
-                    string Temperatura = "teste Temperatura";
+                    Console.WriteLine("Tipo: ");
+                    string tipo = Console.ReadLine();
 
+                    Console.WriteLine("Temperatura: ");
+                    string temperatura = Console.ReadLine(); ;
 
-
-                    //codigo bonitão..
                     banco.Open();
-                    string query = "INSERT INTO comidas(Nome, Tipo, Temperatura) VALUE (@nome, @tipo, @temperatura);";
-
-                    using (MySqlCommand comando = new MySqlCommand(query,banco)) 
+                    string query = "INSERT INTO comidas (Nome, Tipo, Temperatura) VALUE (@Nome, @Tipo, @Temperatura);";
+                    using (MySqlCommand comando = new MySqlCommand(query, banco))
                     {
-                        comando.Parameters.AddWithValue("@nome", Nome);
-                        comando.Parameters.AddWithValue("@tipo", Tipo);
+                        comando.Parameters.AddWithValue("@Nome", Nome);
+                        comando.Parameters.AddWithValue("@Tipo", Tipo);
                         comando.Parameters.AddWithValue("@Temperatura", Temperatura);
+
+
+                        comando.ExecuteNonQuery();
 
                     }
                 }
@@ -77,7 +80,6 @@ namespace bancoDados
                 {
                     Console.WriteLine(ex.Message);
                 }
-
             }
         }
 
@@ -96,9 +98,9 @@ namespace bancoDados
                         while (reader.Read())
                         {
                             Console.WriteLine(reader["id"]);
-                            Console.WriteLine(reader["Nome"]);
-                            Console.WriteLine(reader["Tipo"]);
-                            Console.WriteLine(reader["Temperatura"]);
+                            Console.WriteLine(reader["nome"]);
+                            Console.WriteLine(reader["tipo"]);
+                            Console.WriteLine(reader["temperatura"]);
                         }
 
 
